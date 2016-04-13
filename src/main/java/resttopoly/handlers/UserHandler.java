@@ -3,16 +3,15 @@ package resttopoly.handlers;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.eclipse.jetty.http.HttpStatus;
 import org.sql2o.Sql2oException;
-import resttopoly.model.ModelForm.UserForm;
-import resttopoly.model.User;
-import resttopoly.model.repositories.CannotCreateException;
-import resttopoly.model.repositories.DatabaseConflictException;
-import resttopoly.model.repositories.UserRepository;
-import resttopoly.model.responemodel.UserResponse;
-import resttopoly.model.responemodel.UsersResponse;
+import resttopoly.models.ModelForm.UserForm;
+import resttopoly.models.User;
+import resttopoly.models.repositories.CannotCreateException;
+import resttopoly.models.repositories.DatabaseConflictException;
+import resttopoly.models.repositories.IUserRepository;
+import resttopoly.models.responemodel.UserResponse;
+import resttopoly.models.responemodel.UsersResponse;
 import spark.Request;
 import spark.Response;
 
@@ -27,13 +26,13 @@ import java.util.List;
 public class UserHandler
 {
 
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
     private static final String BASE_PATH = "/users";
 
-    public UserHandler(UserRepository userRepository)
+    public UserHandler(IUserRepository IUserRepository)
     {
-        this.userRepository = userRepository;
+        this.userRepository = IUserRepository;
     }
 
     /**

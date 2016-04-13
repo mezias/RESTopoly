@@ -1,4 +1,4 @@
-package resttopoly.model.responemodel;
+package resttopoly.models.responemodel;
 
 /**
  * @author DucNguyenMinh

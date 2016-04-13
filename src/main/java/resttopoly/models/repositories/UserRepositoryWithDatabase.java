@@ -1,9 +1,9 @@
-package resttopoly.model.repositories;
+package resttopoly.models.repositories;
 
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import org.sql2o.Sql2oException;
-import resttopoly.model.User;
+import resttopoly.models.User;
 
 import java.util.List;
 
@@ -11,14 +11,14 @@ import java.util.List;
  * @author DucNguyenMinh
  * @since 09/04/16
  */
-public class UserRepository
+public class UserRepositoryWithDatabase implements IUserRepository
 {
     private Sql2o sql2o;
 
     /**
      * @param sql2o
      */
-    public UserRepository(Sql2o sql2o)
+    public UserRepositoryWithDatabase(Sql2o sql2o)
     {
         this.sql2o = sql2o;
     }
@@ -28,6 +28,7 @@ public class UserRepository
      * @return User with username
      * null if user not found
      */
+    @Override
     public User findUser(String name)
     {
         User user = null;
@@ -45,10 +46,11 @@ public class UserRepository
      * @return user if Created
      * null if user already exist
      */
+    @Override
     public User createUser(User user) throws CannotCreateException
     {
         try (Connection connection = sql2o.open()) {
-             connection.createQuery("INSERT INTO Users(name,uri) VALUES (:name,:uri)")
+             connection.createQuery("INSERT INTO users(name,uri) VALUES (:name,:uri)")
                     .addParameter("name", user.getName())
                      .addParameter("uri",user.getUri())
                     .executeUpdate();
@@ -65,7 +67,8 @@ public class UserRepository
      * @return user if Created
      * null if user already exist
      */
-    public User updateUser(String oldName,User user) throws DatabaseConflictException
+    @Override
+    public User updateUser(String oldName, User user) throws DatabaseConflictException
     {
         try (Connection connection = sql2o.open()) {
             connection.createQuery("update users set name= :name1, uri= :uri where name=:name2")
@@ -80,6 +83,7 @@ public class UserRepository
         return user;
     }
 
+    @Override
     public void deleteUser(User user)throws Sql2oException
     {
         try (Connection connection = sql2o.open()) {
@@ -89,6 +93,7 @@ public class UserRepository
         }
     }
 
+    @Override
     public List<User> findAllUsers()
     {
         try(Connection connection = sql2o.open()){

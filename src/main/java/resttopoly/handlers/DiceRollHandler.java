@@ -2,11 +2,11 @@ package resttopoly.handlers;
 
 import org.eclipse.jetty.http.HttpStatus;
 import resttopoly.Answer;
-import resttopoly.handlers.transformer.JsonTransformer;
-import resttopoly.model.Roll;
+import resttopoly.models.Roll;
 import spark.Request;
 import spark.Response;
 import spark.Route;
+import sun.net.www.http.HttpClient;
 
 import java.util.Map;
 

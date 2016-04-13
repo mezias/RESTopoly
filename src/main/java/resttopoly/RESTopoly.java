@@ -3,12 +3,18 @@ package resttopoly;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import org.sql2o.Sql2o;
 import resttopoly.handlers.DiceRollHandler;
+import resttopoly.handlers.EventHandler;
 import resttopoly.handlers.UserHandler;
 import resttopoly.handlers.transformer.JsonTransformer;
-import resttopoly.model.User;
-import resttopoly.model.repositories.UserRepository;
+import resttopoly.models.repositories.*;
 
 import javax.sql.DataSource;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Properties;
 
 import static spark.Spark.*;
 
@@ -18,20 +24,40 @@ import static spark.Spark.*;
  */
 public class RESTopoly
 {
-    private static DataSource mysqlDataSource()
+    private static DataSource mysqlDataSource() throws FileNotFoundException
     {
+        Properties properties = new Properties();
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUrl("jdbc:mysql://localhost:3306/RESTopoly");
-        dataSource.setUser("root");
-        dataSource.setPassword("123456789");
+        try {
+            properties.load(new FileInputStream( "src/main/db_config.properties"));
+            String url = properties.getProperty("url");
+            dataSource.setUrl(url);
+            String user = properties.getProperty("user");
+            dataSource.setUser(user);
+            String password = properties.getProperty("password");
+            dataSource.setPassword(password);
+        } catch (IOException e) {
+        }
+
         return dataSource;
     }
 
     public static void main(String args[])
     {
         JsonTransformer jsonTransformer = new JsonTransformer();
-        UserRepository userRepository = new UserRepository(new Sql2o(mysqlDataSource()));
-        UserHandler userHandler = new UserHandler(userRepository);
+        IUserRepository IUserRepository = null;
+        try {
+            IUserRepository = new UserRepositoryWithDatabase(new Sql2o(mysqlDataSource()));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        port(5678);
+
+        UserHandler userHandler = new UserHandler(new UserRespositoryWithMap(new HashMap<>()));
+
+        //home
+        get("/", ((request, response) -> "Hello!" ));
 
         // dice
         get("/dice", new DiceRollHandler(), jsonTransformer);
@@ -46,5 +72,14 @@ public class RESTopoly
         get("/users", ((request, response) -> userHandler.getAllUsers(request,response)),jsonTransformer);
         post("/users", "application/json",(((request, response) -> userHandler.createUser(request,response))));
 
+
+        // Events Service
+        IEventRepository eventRepository = new EventRepository_with_Map(new HashMap<>());
+        EventHandler eventHandler = new EventHandler(eventRepository) ;
+        get("/events",(request, response) -> eventHandler.findEvents(request,response),jsonTransformer);
+        post("/events",((request, response) -> eventHandler.createEvent(request,response)),jsonTransformer);
+        delete("/events",((request, response) -> eventHandler.deleteEvents(request,response)));
+
+        get("/events/:eventid",((request, response) -> eventHandler.findEvent(request,response,request.params(":eventid"))),jsonTransformer);
     }
 }

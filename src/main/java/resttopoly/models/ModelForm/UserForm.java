@@ -1,6 +1,4 @@
-package resttopoly.model.ModelForm;
-
-import resttopoly.model.User;
+package resttopoly.models.ModelForm;
 
 /**
  * @author DucNguyenMinh

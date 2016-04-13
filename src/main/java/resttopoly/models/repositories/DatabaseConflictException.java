@@ -1,4 +1,4 @@
-package resttopoly.model.repositories;
+package resttopoly.models.repositories;
 
 /**
  * @author DucNguyenMinh

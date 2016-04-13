@@ -1,4 +1,4 @@
-package resttopoly.model;
+package resttopoly.models;
 
 import lombok.Data;
 
