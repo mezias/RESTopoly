@@ -59,6 +59,7 @@ public class RESTopoly
         //home
         get("/", ((request, response) -> "Hello!" ));
 
+
         // dice
         get("/dice", new DiceRollHandler(), jsonTransformer);
 
