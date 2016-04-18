@@ -8,8 +8,6 @@ import java.sql.Timestamp;
  */
 public class EventForm
 {
-    private String id;
-
     private String game;
 
     private String type;
@@ -24,24 +22,16 @@ public class EventForm
 
     private EventForm(){}
 
-    public EventForm(String id, String game, String type, String name, String reason)
+    public EventForm(String game, String player, String type, String name, String reason)
     {
-        this.id = id;
         this.game = game;
         this.type = type;
         this.name = name;
         this.reason = reason;
+        this.player = player;
     }
 
-    public String getId()
-    {
-        return id;
-    }
 
-    public void setId(String id)
-    {
-        this.id = id;
-    }
 
     public String getGame()
     {

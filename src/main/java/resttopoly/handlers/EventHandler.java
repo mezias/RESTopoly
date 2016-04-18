@@ -1,13 +1,9 @@
 package resttopoly.handlers;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.jetty.http.HttpStatus;
 import resttopoly.models.Event;
 import resttopoly.models.ModelForm.EventForm;
-import resttopoly.models.ModelForm.UserForm;
-import resttopoly.models.User;
 import resttopoly.models.repositories.CannotCreateException;
 import resttopoly.models.repositories.IEventRepository;
 import resttopoly.models.responemodel.EventResponse;
@@ -15,10 +11,8 @@ import resttopoly.models.responemodel.EventsResponse;
 import spark.Request;
 import spark.Response;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -65,8 +59,7 @@ public class EventHandler
 
         try {
             eventForm = new ObjectMapper().readValue(request.body(), EventForm.class);
-            Event event = new Event(eventForm.getId(), eventForm.getGame(), eventForm.getType(), eventForm.getName(), eventForm.getReason());
-            event.setPlayer(eventForm.getPlayer());
+            Event event = new Event(eventForm.getGame(),eventForm.getPlayer(), eventForm.getType(), eventForm.getName(), eventForm.getReason());
             event.setResource(eventForm.getResource());
             try {
                 eventRepository.createEvent(event);

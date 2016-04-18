@@ -27,16 +27,17 @@ public class Event
 
     private Timestamp time;
 
-    public Event(String id, String game, String type, String name, String reason)
+    public Event(String game, String player,String type, String name, String reason)
     {
-        this.id = id;
         this.game = game;
         this.type = type;
         this.name = name;
         this.reason = reason;
         this.resource = "";
         this.player = "";
-        this.time = new Timestamp(System.currentTimeMillis());
+        long timeInMilis = System.currentTimeMillis();
+        this.time = new Timestamp(timeInMilis);
+        this.id = "/games/"+game+"/players/"+player+"/events/"+timeInMilis;
     }
 
     public String getId()
