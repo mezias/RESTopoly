@@ -1,13 +1,3 @@
 Manifest-Version: 1.0
-Class-Path: jackson-core-2.6.4.jar websocket-api-9.3.2.v20150730.jar j
- etty-io-9.3.2.v20150730.jar websocket-server-9.3.2.v20150730.jar jett
- y-servlet-9.3.2.v20150730.jar jetty-http-9.3.2.v20150730.jar jetty-ut
- il-9.3.2.v20150730.jar jetty-server-9.3.2.v20150730.jar websocket-cli
- ent-9.3.2.v20150730.jar slf4j-simple-1.7.12.jar mysql-connector-java-
- 5.1.38.jar javax.servlet-api-3.1.0.jar websocket-servlet-9.3.2.v20150
- 730.jar jackson-databind-2.6.4.jar websocket-common-9.3.2.v20150730.j
- ar sql2o-1.5.4.jar slf4j-api-1.7.12.jar jetty-xml-9.3.2.v20150730.jar
-  jackson-annotations-2.6.0.jar jetty-webapp-9.3.2.v20150730.jar spark
- -core-2.3.jar jetty-security-9.3.2.v20150730.jar
 Main-Class: resttopoly.RESTopoly
 

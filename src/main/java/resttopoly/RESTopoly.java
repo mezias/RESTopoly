@@ -24,35 +24,33 @@ import static spark.Spark.*;
  */
 public class RESTopoly
 {
-    private static DataSource mysqlDataSource() throws FileNotFoundException
-    {
-        Properties properties = new Properties();
-        MysqlDataSource dataSource = new MysqlDataSource();
-        try {
-            properties.load(new FileInputStream( "src/main/db_config.properties"));
-            String url = properties.getProperty("url");
-            dataSource.setUrl(url);
-            String user = properties.getProperty("user");
-            dataSource.setUser(user);
-            String password = properties.getProperty("password");
-            dataSource.setPassword(password);
-        } catch (IOException e) {
-        }
-
-        return dataSource;
-    }
+//    private static DataSource mysqlDataSource() throws FileNotFoundException
+//    {
+//        Properties properties = new Properties();
+//        MysqlDataSource dataSource = new MysqlDataSource();
+//        try {
+//            properties.load(new FileInputStream( "src/main/db_config.properties"));
+//            String url = properties.getProperty("url");
+//            dataSource.setUrl(url);
+//            String user = properties.getProperty("user");
+//            dataSource.setUser(user);
+//            String password = properties.getProperty("password");
+//            dataSource.setPassword(password);
+//        } catch (IOException e) {
+//        }
+//
+//        return dataSource;
+//    }
 
     public static void main(String args[])
     {
         JsonTransformer jsonTransformer = new JsonTransformer();
-        IUserRepository IUserRepository = null;
-        try {
-            IUserRepository = new UserRepositoryWithDatabase(new Sql2o(mysqlDataSource()));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        port(5678);
+//        IUserRepository IUserRepository = null;
+//        try {
+//            IUserRepository = new UserRepositoryWithDatabase(new Sql2o(mysqlDataSource()));
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
 
         UserHandler userHandler = new UserHandler(new UserRespositoryWithMap(new HashMap<>()));
 
