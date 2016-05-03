@@ -2,18 +2,18 @@ package resttopoly.handlers;
 
 import org.eclipse.jetty.http.HttpStatus;
 import resttopoly.Answer;
+import resttopoly.services.EventServiceProvider;
+import resttopoly.services.YellopagesService;
 import resttopoly.models.Roll;
 import spark.Request;
 import spark.Response;
 import spark.Route;
-import sun.net.www.http.HttpClient;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
@@ -23,7 +23,7 @@ import java.util.Map;
  */
 public class DiceRollHandler extends AbstractRequestHandler implements Route
 {
-    private static final String EVENT_URL = "http://localhost:5678/events";
+    private static final String EVENT_URL = "http://172.18.0.47:4567/events";
 
     @Override
     public Answer process(Map<String, String> urlParams)
@@ -38,18 +38,19 @@ public class DiceRollHandler extends AbstractRequestHandler implements Route
         String game = request.queryParams("game");
         Roll roll = Roll.createRoll(player,game);
 
-        createEvent(EVENT_URL,player,game);
+        createEvent(player,game);
 
         response.type("application/json");
         response.status(HttpStatus.OK_200);
         return roll;
     }
 
-    private String createEvent(String eventUrl,String player, String game){
+    private String createEvent(String player, String game){
         HttpURLConnection connection = null;
 
         try{
-            URL url = new URL(eventUrl);
+            YellopagesService eventService = EventServiceProvider.getService();
+            URL url = new URL(eventService.getUri()+"events");
 
             String requestBody = "{ " +
                     "\"game\":\"" + game +" \", "+

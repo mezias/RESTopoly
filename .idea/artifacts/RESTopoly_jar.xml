@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact name="RESTopoly:jar">
-    <output-path>$USER_HOME$/Desktop/Restopoly_without_database</output-path>
+    <output-path>$USER_HOME$/Desktop/RESTopoly/RESTopoly</output-path>
     <root id="root">
       <element id="archive" name="RESTopoly.jar">
         <element id="directory" name="META-INF">
@@ -8,28 +8,28 @@
         </element>
         <element id="module-output" name="RESTopoly" />
       </element>
-      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.6.4" />
-      <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.3.2.v20150730" />
-      <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-io:9.3.2.v20150730" />
-      <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-server:9.3.2.v20150730" />
       <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-servlet:9.3.2.v20150730" />
-      <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-http:9.3.2.v20150730" />
-      <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-util:9.3.2.v20150730" />
-      <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-server:9.3.2.v20150730" />
-      <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-client:9.3.2.v20150730" />
       <element id="library" level="project" name="Maven: org.slf4j:slf4j-simple:1.7.12" />
-      <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.38" />
-      <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.1.0" />
-      <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-servlet:9.3.2.v20150730" />
-      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.6.4" />
-      <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.3.2.v20150730" />
-      <element id="library" level="project" name="Maven: org.sql2o:sql2o:1.5.4" />
+      <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-client:9.3.2.v20150730" />
       <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.12" />
+      <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-server:9.3.2.v20150730" />
+      <element id="library" level="project" name="Maven: org.sql2o:sql2o:1.5.4" />
+      <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-webapp:9.3.2.v20150730" />
+      <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-common:9.3.2.v20150730" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.6.4" />
+      <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-security:9.3.2.v20150730" />
+      <element id="library" level="project" name="Maven: com.sparkjava:spark-core:2.3" />
+      <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-api:9.3.2.v20150730" />
+      <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-http:9.3.2.v20150730" />
+      <element id="library" level="project" name="Maven: org.eclipse.jetty.websocket:websocket-servlet:9.3.2.v20150730" />
+      <element id="library" level="project" name="Maven: javax.servlet:javax.servlet-api:3.1.0" />
+      <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-server:9.3.2.v20150730" />
+      <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-io:9.3.2.v20150730" />
       <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-xml:9.3.2.v20150730" />
       <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.6.0" />
-      <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-webapp:9.3.2.v20150730" />
-      <element id="library" level="project" name="Maven: com.sparkjava:spark-core:2.3" />
-      <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-security:9.3.2.v20150730" />
+      <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.38" />
+      <element id="library" level="project" name="Maven: org.eclipse.jetty:jetty-util:9.3.2.v20150730" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.6.4" />
     </root>
   </artifact>
 </component>
