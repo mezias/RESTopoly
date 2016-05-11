@@ -3,7 +3,7 @@ package resttopoly.handlers;
 import org.eclipse.jetty.http.HttpStatus;
 import resttopoly.Answer;
 import resttopoly.services.EventServiceProvider;
-import resttopoly.services.YellopagesService;
+import resttopoly.services.YellowpagesService;
 import resttopoly.models.Roll;
 import spark.Request;
 import spark.Response;
@@ -49,7 +49,7 @@ public class DiceRollHandler extends AbstractRequestHandler implements Route
         HttpURLConnection connection = null;
 
         try{
-            YellopagesService eventService = EventServiceProvider.getService();
+            YellowpagesService eventService = EventServiceProvider.getService();
             URL url = new URL(eventService.getUri()+"events");
 
             String requestBody = "{ " +

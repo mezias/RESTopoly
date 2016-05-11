@@ -2,15 +2,15 @@ package resttopoly.models;
 
 public class Services
 {
-    private String game;
+    private String games;
     
     private String dice;
     
-    private String board;
+    private String boards;
     
-    private String bank;
+    private String banks;
     
-    private String broker;
+    private String brokers;
     
     private String decks;
     
@@ -18,23 +18,23 @@ public class Services
 
     public Services(String game, String dice, String board, String bank,
             String broker, String decks, String events) {
-        this.game = game;
+        this.games = game;
         this.dice = dice;
-        this.board = board;
-        this.bank = bank;
-        this.broker = broker;
+        this.boards = board;
+        this.banks = bank;
+        this.brokers = broker;
         this.decks = decks;
         this.events = events;
     }
 
-    public String getGame()
+    public String getGames()
     {
-        return game;
+        return games;
     }
 
-    public void setGame(String game)
+    public void setGames(String games)
     {
-        this.game = game;
+        this.games = games;
     }
 
     public String getDice()
@@ -47,34 +47,34 @@ public class Services
         this.dice = dice;
     }
 
-    public String getBoard()
+    public String getBoards()
     {
-        return board;
+        return boards;
     }
 
-    public void setBoard(String board)
+    public void setBoards(String boards)
     {
-        this.board = board;
+        this.boards = boards;
     }
 
-    public String getBank()
+    public String getBanks()
     {
-        return bank;
+        return banks;
     }
 
-    public void setBank(String bank)
+    public void setBanks(String banks)
     {
-        this.bank = bank;
+        this.banks = banks;
     }
 
-    public String getBroker()
+    public String getBrokers()
     {
-        return broker;
+        return brokers;
     }
 
-    public void setBroker(String broker)
+    public void setBrokers(String brokers)
     {
-        this.broker = broker;
+        this.brokers = brokers;
     }
 
     public String getDecks()
@@ -100,8 +100,8 @@ public class Services
     @Override
     public String toString()
     {
-        return "Services [game=" + game + ", dice=" + dice + ", board=" + board
-                + ", bank=" + bank + ", broker=" + broker + ", decks=" + decks
+        return "Services [games=" + games + ", dice=" + dice + ", boards=" + boards
+                + ", banks=" + banks + ", brokers=" + brokers + ", decks=" + decks
                 + ", events=" + events + "]";
     }
 }

@@ -9,7 +9,7 @@ import java.util.Map;
  * @author DucNguyenMinh
  * @since 13/04/16
  */
-public interface IEventRepository
+public interface IEventRepository extends Repository
 {
     List<Event> findAllEvents();
     Event findEvent(String id);

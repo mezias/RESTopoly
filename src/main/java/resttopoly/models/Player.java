@@ -10,15 +10,12 @@ public class Player
     
     private String account;
     
-    private String ready;
+    private boolean ready;
 
-    public Player(String id, String user, String pawn, String account,
-            String ready) {
-        super();
-        this.id = id;
+    public Player(String user, boolean ready) {
         this.user = user;
-        this.pawn = pawn;
-        this.account = account;
+        String[] strarr = user.split("/");
+        this.id = strarr[strarr.length-1];
         this.ready = ready;
     }
 
@@ -62,12 +59,12 @@ public class Player
         this.account = account;
     }
 
-    public String getReady()
+    public boolean getReady()
     {
         return ready;
     }
 
-    public void setReady(String ready)
+    public void setReady(boolean ready)
     {
         this.ready = ready;
     }

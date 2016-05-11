@@ -16,8 +16,13 @@ public class Components
     
     private String events;
 
+    public Components()
+    {
+
+    }
+
     public Components(String game, String dice, String board, String bank,
-            String broker, String decks, String events) {
+                      String broker, String decks, String events) {
         super();
         this.game = game;
         this.dice = dice;

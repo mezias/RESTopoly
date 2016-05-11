@@ -1,6 +1,11 @@
 package resttopoly.models;
 
 import lombok.Data;
+import resttopoly.logiccontroller.GameController;
+import resttopoly.models.ModelForm.ServicesForm;
+import resttopoly.models.repositories.CannotCreateException;
+
+import java.util.List;
 
 /**
  * @author GerritBode
@@ -13,35 +18,26 @@ public class Game
     
     private String name;
     
-    private String players;
+    private List<Player> players;
     
-    private String components;
+    private Components components;
     
-    private String services;
+    private Services services;
     
-    private String status;
-    
-    public Game(String id, String name, String players, String services)
+    private GameStatus status;
+
+    private GameController gameController;
+
+    public Game(String name, Services services)
     {
-       this.id = id; 
-       this.name = name;
-       this.players = players;
-       this.services = services;
-       status = "registration";
-    }
-    
-    public Game(String id, String name, String players, String components, String services)
-    {
-       this.id = id; 
-       this.name = name;
-       this.players = players;
-       this.components = components;
-       this.services = services;
+        this.name = name;
+        this.services = services;
+        this.status = GameStatus.Registration;
     }
 
-    public String getId()
+    public void setGameController(GameController gameController)
     {
-        return id;
+        this.gameController = gameController;
     }
 
     public void setId(String id)
@@ -49,53 +45,73 @@ public class Game
         this.id = id;
     }
 
+    public String getId()
+    {
+        return id;
+    }
+
+
     public String getName()
     {
         return name;
     }
 
-    public void setName(String name)
+    public List<Player> getPlayers()
     {
-        this.name = name;
+        return gameController.getPlayers();
     }
 
-    public String getPlayers()
+    public Components getComponents()
     {
-        return players;
+        return gameController.getComponents();
     }
 
-    public void setPlayers(String players)
+    public Services getServices()
     {
-        this.players = players;
-    }
-    
-    public String getComponents()
-    {
-        return components;
+        return gameController.getServices();
     }
 
-    public void setComponents(String components)
-    {
-        this.components = components;
-    }
-    
-    public String getServices()
-    {
-        return services;
-    }
-
-    public void setServices(String services)
-    {
-        this.services = services;
-    }
-
-    public String getStatus()
+    public GameStatus getStatus()
     {
         return status;
     }
 
-//    public void setStatus(String status)
-//    {
-//        this.status = status;
-//    }
+    public GameController getGameController()
+    {
+        return gameController;
+    }
+
+    public void updateServices(Services services)
+    {
+        gameController.updateServices(services);
+    }
+
+    public void updateComponents(Components components)
+    {
+        gameController.updateComponents(components);
+    }
+
+    public Player addPlayerToGame(Player player) throws CannotCreateException
+    {
+        return gameController.addPlayer(player);
+    }
+
+    public Player getPlayer(String id)
+    {
+        return gameController.getPlayer(id);
+    }
+
+    public void deletePlayer(Player player)
+    {
+        gameController.deletePlayer(player);
+    }
+
+    public Player updatePlayer(Player player)
+    {
+        return gameController.updatePlayer(player);
+    }
+
+    public enum GameStatus{
+        Registration, Running, Finish
+    }
 }

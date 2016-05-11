@@ -9,7 +9,7 @@ import java.util.List;
  * @author DucNguyenMinh
  * @since 13/04/16
  */
-public interface IUserRepository
+public interface IUserRepository extends Repository
 {
     User findUser(String name);
 

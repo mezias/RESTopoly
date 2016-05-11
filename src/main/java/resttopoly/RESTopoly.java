@@ -4,8 +4,12 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import org.sql2o.Sql2o;
 import resttopoly.handlers.DiceRollHandler;
 import resttopoly.handlers.EventHandler;
+import resttopoly.handlers.GameHandler;
 import resttopoly.handlers.UserHandler;
 import resttopoly.handlers.transformer.JsonTransformer;
+import resttopoly.models.Game;
+import resttopoly.models.Player;
+import resttopoly.models.Services;
 import resttopoly.models.repositories.*;
 
 import javax.sql.DataSource;
@@ -14,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import static spark.Spark.*;
@@ -52,6 +57,10 @@ public class RESTopoly
 //            e.printStackTrace();
 //        }
 
+        registerRepositories();
+
+        GameHandler gameHandler = new GameHandler(new GameRepositoryWithMap(new HashMap<>(), new HashMap<>()));
+
         UserHandler userHandler = new UserHandler(new UserRespositoryWithMap(new HashMap<>()));
 
         //home
@@ -72,20 +81,32 @@ public class RESTopoly
         post("/users", "application/json",(((request, response) -> userHandler.createUser(request,response))));
 
         //Games
-//        get("/games", (request, response) -> )
-//        post("/games")
-//        get
-//        get
+        get("/games", (request, response) -> gameHandler.getAllGames(request,response), jsonTransformer);
+        post("/games", (request, response) -> gameHandler.createGames(request,response), jsonTransformer );
+
+        //GAMES{GAMEID}
+        get("/games/:gameId", (request, response) -> gameHandler.getGame(request.params(":gameId"), request,response), jsonTransformer );
+
+        //GAMES{GAMEID}STATUS
+        get("/games/:gameId/status", (request, response) -> gameHandler.getStatusOfGame(request.params(":gameId"), request,response),jsonTransformer);
 //        put
-//        get
-//        put
-//        get
-//        put
-//        get
-//        post
-//        get
-//        put
-//        delete
+        //GAMES{GAMEID}SERVICES
+        get("/games/:gameId/services", (request, response) -> gameHandler.getServices(request.params(":gameId"), request,response),jsonTransformer);
+        put("/games/:gameId/services", (request, response) -> gameHandler.updateServices(request.params(":gameId"), request,response),jsonTransformer);
+
+        //GAMES{GAMEID}COMPONENTS
+        get("/games/:gameId/components", (request, response) -> gameHandler.getComponents(request.params(":gameId"), request,response),jsonTransformer);
+        put("/games/:gameId/components", (request, response) -> gameHandler.updateComponents(request.params(":gameId"), request,response),jsonTransformer);
+
+        //GAMES{GAMEID}PLAYERS
+        get("/games/:gameId/players", (request, response) -> gameHandler.getAllPlayers(request.params(":gameId"), request,response),jsonTransformer);
+        post("/games/:gameId/players", (request, response) -> gameHandler.createPlayer(request.params(":gameId"), request,response),jsonTransformer);
+
+        //GAMES{GAMEID}PLAYERS{PLAYERID}
+        get("/games/:gameId/players/:playerId", (request, response) -> gameHandler.getPlayer(request.params(":gameId"),request.params(":playerid"), request,response),jsonTransformer);
+        put("/games/:gameId/players/:playerId", (request, response) -> gameHandler.updatePlayer(request.params(":gameId"),request.params(":playerid"), request,response),jsonTransformer);
+        // TODO: also delete the components of player
+        delete("/games/:gameId/players/:playerId", (request, response) -> gameHandler.deletePlayer(request.params(":gameId"),request.params(":playerid"), request,response),jsonTransformer);
 //        put
 //        get
 //        get
@@ -101,5 +122,14 @@ public class RESTopoly
         delete("/events",((request, response) -> eventHandler.deleteEvents(request,response)));
 
         get("/events/:eventid",((request, response) -> eventHandler.findEvent(request,response,request.params(":eventid"))),jsonTransformer);
+    }
+
+    private static void registerRepositories()
+    {
+        RepositoryProvider.register(IGameRepository.class, new GameRepositoryWithMap(new HashMap<Long, Game>(), new HashMap<String, Player>()));
+        RepositoryProvider.register(IPlayerRepository.class, new PlayerRepository(new HashMap<String, Map<String, Player>>()));
+        RepositoryProvider.register(IServiceRepository.class, new ServiceRepository(new HashMap<String, Services>()));
+        RepositoryProvider.register(IComponentRepository.class, new ComponentRepository(new HashMap<>()));
+
     }
 }
