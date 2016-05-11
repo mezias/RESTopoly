@@ -71,7 +71,28 @@ public class RESTopoly
         get("/users", ((request, response) -> userHandler.getAllUsers(request,response)),jsonTransformer);
         post("/users", "application/json",(((request, response) -> userHandler.createUser(request,response))));
 
-
+        //Games
+//        get("/games", (request, response) -> )
+//        post("/games")
+//        get
+//        get
+//        put
+//        get
+//        put
+//        get
+//        put
+//        get
+//        post
+//        get
+//        put
+//        delete
+//        put
+//        get
+//        get
+//        get
+//        put
+//        delete
+        
         // Events Service
         IEventRepository eventRepository = new EventRepository_with_Map(new HashMap<>());
         EventHandler eventHandler = new EventHandler(eventRepository) ;

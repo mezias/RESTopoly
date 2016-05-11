@@ -7,7 +7,7 @@ import lombok.Data;
  * @since 02/05/16
  */
 @Data
-public class YellopagesService
+public class YellowpagesService
 {
     private String _uri;
     private String uri;
