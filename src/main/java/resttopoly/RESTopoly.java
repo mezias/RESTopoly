@@ -114,7 +114,6 @@ public class RESTopoly
 //        put
 //        delete
 
-
         // Events Service
         IEventRepository eventRepository = new EventRepository_with_Map(new HashMap<>());
         EventHandler eventHandler = new EventHandler(eventRepository) ;
