@@ -315,4 +315,57 @@ public class GameHandler
         response.status(HttpStatus.OK_200);
         return new PlayerResponse(gameId,player);
     }
+
+    public ReadyResponse getReady(String gameId, String playerId, Request request, Response response)
+    {
+        Game game = gameRepository.findGame(gameId);
+
+        if (game == null) {
+            response.status(org.apache.http.HttpStatus.SC_NOT_FOUND);
+            response.body("There is no such game!");
+            return null;
+        }
+
+        Player player = game.getPlayer(playerId);
+        if (player == null) {
+            response.status(org.apache.http.HttpStatus.SC_NOT_FOUND);
+            response.body("There is no such player!");
+            return null;
+        }
+        
+        response.status(HttpStatus.OK_200);
+        return new ReadyResponse(player);
+    }
+
+    public ReadyResponse updateReady(String gameId, String playerId, Request request, Response response)
+    {
+        Game game = gameRepository.findGame(gameId);
+
+        if (game == null) {
+            response.status(org.apache.http.HttpStatus.SC_NOT_FOUND);
+            response.body("There is no such game!");
+            return null;
+        }
+
+        Player player = game.getPlayer(playerId);
+        if (player == null) {
+            response.status(org.apache.http.HttpStatus.SC_NOT_FOUND);
+            response.body("There is no such player!");
+            return null;
+        }
+        
+        try {
+            PlayerUpdateForm playerForm = new ObjectMapper().readValue(request.body(), PlayerUpdateForm.class);
+            Player updatedPlayer = new Player(player.getUser(),player.getReady());
+            updatedPlayer.setReady(playerForm.isReady());
+            game.updatePlayer(updatedPlayer);
+            System.out.println("test");
+        } catch (IOException e) {
+            response.status(HttpStatus.BAD_REQUEST_400);
+            e.printStackTrace();
+        }
+
+        response.status(HttpStatus.OK_200);
+        return new ReadyResponse(player);
+    }
 }

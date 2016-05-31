@@ -1,5 +1,7 @@
 package resttopoly.handlers.transformer;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import spark.ResponseTransformer;
@@ -17,6 +19,7 @@ public class JsonTransformer implements ResponseTransformer
     {
         try {
             ObjectMapper mapper = new ObjectMapper();
+            mapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY);
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
             return mapper.writeValueAsString(data);
         } catch (IOException e){

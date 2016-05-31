@@ -8,6 +8,7 @@ public class PlayerUpdateForm
 {
     private String pawn;
     private String account;
+    private boolean ready;
 
     public String getPawn()
     {
@@ -17,5 +18,10 @@ public class PlayerUpdateForm
     public String getAccount()
     {
         return account;
+    }
+    
+    public boolean isReady()
+    {
+        return ready;
     }
 }

@@ -2,8 +2,10 @@ package resttopoly.models.responemodel;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Data
 public class GamesResponse
@@ -11,6 +13,8 @@ public class GamesResponse
     private static final String GAME_BASE_PATH = "/games";
 
     private List<String> games;
+    
+    private GamesResponse(){}
 
     public GamesResponse(List<String> gameIds)
     {

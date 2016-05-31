@@ -107,9 +107,12 @@ public class RESTopoly
         put("/games/:gameId/players/:playerId", (request, response) -> gameHandler.updatePlayer(request.params(":gameId"),request.params(":playerid"), request,response),jsonTransformer);
         // TODO: also delete the components of player
         delete("/games/:gameId/players/:playerId", (request, response) -> gameHandler.deletePlayer(request.params(":gameId"),request.params(":playerid"), request,response),jsonTransformer);
+        
 //        put
+        get("/games/:gameId/players/:playerId/ready", (request, response) -> gameHandler.getReady(request.params(":gameId"),request.params(":playerid"), request,response),jsonTransformer);
+        put("/games/:gameId/players/:playerId/ready", (request, response) -> gameHandler.updateReady(request.params(":gameId"),request.params(":playerid"), request,response),jsonTransformer);
 //        get
-//        get
+        
 //        get
 //        put
 //        delete
