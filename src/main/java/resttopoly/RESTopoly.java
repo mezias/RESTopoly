@@ -102,20 +102,22 @@ public class RESTopoly
         get("/games/:gameId/players", (request, response) -> gameHandler.getAllPlayers(request.params(":gameId"), request,response),jsonTransformer);
         post("/games/:gameId/players", (request, response) -> gameHandler.createPlayer(request.params(":gameId"), request,response),jsonTransformer);
 
+        //GAMES{GAMEID}PLAYERS/CURRENT
+        get("/games/:gameId/players/current",(request, response) -> gameHandler.getCurrentActivePlayer(request.params(":gameId"), request,response),jsonTransformer);
+
+        //GAMES{GAMEID}PLAYERS/TURN
+        get("/games/:gameId/players/turn", (request, response) -> gameHandler.getCurrentActivePlayer(request.params(":gameId"), request,response), jsonTransformer);
+        put("/games/:gameId/players/turn", (request, response) -> gameHandler.aquireMutex(request.params(":gameId"), request,response), jsonTransformer);
+        delete("/games/:gameId/players/turn", (request, response) -> gameHandler.releaseMutex(request.params(":gameId"), request,response), jsonTransformer);
+
         //GAMES{GAMEID}PLAYERS{PLAYERID}
         get("/games/:gameId/players/:playerId", (request, response) -> gameHandler.getPlayer(request.params(":gameId"),request.params(":playerid"), request,response),jsonTransformer);
         put("/games/:gameId/players/:playerId", (request, response) -> gameHandler.updatePlayer(request.params(":gameId"),request.params(":playerid"), request,response),jsonTransformer);
-        // TODO: also delete the components of player
         delete("/games/:gameId/players/:playerId", (request, response) -> gameHandler.deletePlayer(request.params(":gameId"),request.params(":playerid"), request,response),jsonTransformer);
-        
-//        put
+
+        //GAMES{GAMEID}PLAYERS{PLAYERID}READY
         get("/games/:gameId/players/:playerId/ready", (request, response) -> gameHandler.getReady(request.params(":gameId"),request.params(":playerid"), request,response),jsonTransformer);
         put("/games/:gameId/players/:playerId/ready", (request, response) -> gameHandler.updateReady(request.params(":gameId"),request.params(":playerid"), request,response),jsonTransformer);
-//        get
-        
-//        get
-//        put
-//        delete
 
         // Events Service
         IEventRepository eventRepository = new EventRepository_with_Map(new HashMap<>());

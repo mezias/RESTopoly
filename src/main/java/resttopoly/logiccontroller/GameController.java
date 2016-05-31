@@ -1,5 +1,6 @@
 package resttopoly.logiccontroller;
 
+import resttopoly.contexts.MutexContext;
 import resttopoly.models.Components;
 import resttopoly.models.Player;
 import resttopoly.models.Services;
@@ -17,6 +18,8 @@ public class GameController
     private IPlayerRepository playerRepository;
     private IServiceRepository serviceRepository;
     private IComponentRepository componentRepository;
+    private MutexContext mutexContext;
+    private Player currentInTurnPlayer;
 
     public GameController(String gameId, Services services)
     {
@@ -27,6 +30,7 @@ public class GameController
         this.serviceRepository.addServicesToGame(gameId, services);
         this.componentRepository = (IComponentRepository) RepositoryProvider.getRepository(IComponentRepository.class);
         this.componentRepository.createComponentsListForGame(gameId);
+        this.mutexContext = new MutexContext();
     }
 
 
@@ -123,12 +127,12 @@ public class GameController
 
     public Player getPlayer(String id)
     {
-        return playerRepository.findPlayer(gameId,id);
+        return playerRepository.findPlayer(gameId, id);
     }
 
     public void deletePlayer(Player player)
     {
-        playerRepository.deletePlayer(gameId,player);
+        playerRepository.deletePlayer(gameId, player);
     }
 
     public Player updatePlayer(Player player)
@@ -145,8 +149,25 @@ public class GameController
                 playerToUpdate.setPawn(player.getPawn());
             }
 
+            playerToUpdate.setReady(player.getReady());
+
             return playerToUpdate;
         }
         return null;
+    }
+
+    public boolean aquireMutex(Player aquiringPlayer)
+    {
+        return mutexContext.acquire(aquiringPlayer);
+    }
+
+    public Player getCurrentInTurnPlayer()
+    {
+        return mutexContext.getCurrentPlayer();
+    }
+
+    public boolean releaseCurrentPlayer()
+    {
+        return this.mutexContext.release(this.mutexContext.getCurrentPlayer());
     }
 }

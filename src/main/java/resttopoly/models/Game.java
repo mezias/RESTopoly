@@ -111,6 +111,21 @@ public class Game
         return gameController.updatePlayer(player);
     }
 
+    public boolean acquireMutex(Player aquiringPlayer)
+    {
+        return gameController.aquireMutex(aquiringPlayer);
+    }
+
+    public Player getCurrentInTurnPlayer()
+    {
+        return gameController.getCurrentInTurnPlayer();
+    }
+
+    public boolean releaseMutex()
+    {
+        return gameController.releaseCurrentPlayer();
+    }
+
     public enum GameStatus{
         Registration, Running, Finish
     }

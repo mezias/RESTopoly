@@ -1,6 +1,7 @@
 package resttopoly.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.org.glassfish.external.probe.provider.PluginPoint;
 import org.eclipse.jetty.http.HttpStatus;
 
 import resttopoly.logiccontroller.GameController;
@@ -367,5 +368,105 @@ public class GameHandler
 
         response.status(HttpStatus.OK_200);
         return new ReadyResponse(player);
+    }
+
+    public PlayerResponse aquireMutex(String gameId, Request request, Response response)
+    {
+        Game game = gameRepository.findGame(gameId);
+
+        if (game == null) {
+            response.status(org.apache.http.HttpStatus.SC_NOT_FOUND);
+            response.body("There is no such game!");
+            return null;
+        }
+
+        String playerURI = request.queryParams("player");
+        String[] playerURIarr = playerURI.split("/");
+
+        if (playerURIarr.length != 5) {
+            response.status(org.apache.http.HttpStatus.SC_BAD_REQUEST);
+            response.body("PLayer or game does not exist!");
+            return null;
+        }
+
+        String reqBdGameID = playerURIarr[2];
+
+        Game reqBdGame = gameRepository.findGame(reqBdGameID);
+
+        if (reqBdGame == null) {
+            response.status(org.apache.http.HttpStatus.SC_NOT_FOUND);
+            response.body("There is no such game!");
+            return null;
+        }
+
+        Player aquiringPlayer = game.getPlayer(playerURIarr[4]);
+
+        if (aquiringPlayer == null) {
+            response.status(org.apache.http.HttpStatus.SC_NOT_FOUND);
+            response.body("There is no such player!");
+            return null;
+        }
+
+        Player holdingMutexPlayer = game.getCurrentInTurnPlayer();
+
+
+        if ( holdingMutexPlayer != null && holdingMutexPlayer.getId().equals(aquiringPlayer.getId())){
+            response.status(HttpStatus.OK_200);
+            return new PlayerResponse(gameId,aquiringPlayer);
+        }
+
+        boolean acquired = game.acquireMutex(aquiringPlayer);
+
+        if (acquired){
+            response.status(HttpStatus.CREATED_201);
+            return new PlayerResponse(gameId,aquiringPlayer);
+        } else {
+            response.status(org.apache.http.HttpStatus.SC_CONFLICT);
+            response.body("Already aquired by another Player!");
+            return null;
+        }
+    }
+
+    public PlayerResponse getCurrentActivePlayer(String gameId, Request request, Response response)
+    {
+        Game game = gameRepository.findGame(gameId);
+
+        if (game == null) {
+            response.status(org.apache.http.HttpStatus.SC_NOT_FOUND);
+            response.body("There is no such game!");
+            return null;
+        }
+
+        Player currentPlayer = game.getCurrentInTurnPlayer();
+
+        if (currentPlayer == null) {
+            response.status(HttpStatus.NOT_FOUND_404);
+            response.body("There is no active Player!");
+            return null;
+        }
+
+        response.status(HttpStatus.OK_200);
+        return new PlayerResponse(gameId,currentPlayer);
+    }
+
+    public String releaseMutex(String gameId, Request request, Response response)
+    {
+        Game game = gameRepository.findGame(gameId);
+
+        if (game == null) {
+            response.status(org.apache.http.HttpStatus.SC_NOT_FOUND);
+            response.body("There is no such game!");
+            return null;
+        }
+
+        boolean released = game.releaseMutex();
+
+        if (released) {
+            response.status(HttpStatus.OK_200);
+            return "Mutex released!";
+        } else {
+            response.status(HttpStatus.CONFLICT_409);
+            return "Mutex cannot be released";
+        }
     }
 }
