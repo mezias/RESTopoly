@@ -1,6 +1,12 @@
 package resttopoly;
 
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+
+import resttopoly.handlers.BrokersHandler;
+import resttopoly.models.repositories.BrokersRepository;
+import resttopoly.models.repositories.IBrokersRepository;
+import resttopoly.models.repositories.RepositoryProvider;
+
 import org.sql2o.Sql2o;
 import resttopoly.handlers.DiceRollHandler;
 import resttopoly.handlers.EventHandler;
@@ -58,11 +64,15 @@ public class RESTopoly
 //        }
 
         registerRepositories();
+        
+        GameRepositoryWithMap gameRepository = new GameRepositoryWithMap(new HashMap<>(), new HashMap<>());
 
-        GameHandler gameHandler = new GameHandler(new GameRepositoryWithMap(new HashMap<>(), new HashMap<>()));
+        GameHandler gameHandler = new GameHandler(gameRepository);
 
         UserHandler userHandler = new UserHandler(new UserRespositoryWithMap(new HashMap<>()));
-
+        
+        BrokersHandler brokersHandler = new BrokersHandler((IBrokersRepository) RepositoryProvider.provide(IBrokersRepository.class), gameRepository);
+        
         //home
         get("/", ((request, response) -> "Hello!" ));
 
@@ -127,6 +137,17 @@ public class RESTopoly
         delete("/events",((request, response) -> eventHandler.deleteEvents(request,response)));
 
         get("/events/:eventid",((request, response) -> eventHandler.findEvent(request,response,request.params(":eventid"))),jsonTransformer);
+        
+        // Brokers Service        
+        get("/brokers", (request, response) -> brokersHandler.getAllBroker(request, response), jsonTransformer);
+        post("/brokers", (request, response) -> brokersHandler.createBroker(request, response), jsonTransformer);
+
+        get("/brokers/:gameId", (request, response) -> brokersHandler.findBroker(request.params(":gameId"), request,response), jsonTransformer );
+        put("/brokers/:gameId", (request, response) -> brokersHandler.createBroker(request.params(":gameId"), request,response),jsonTransformer);
+        //put("/brokers/:gameId", (request, response) -> gameHandler.updateComponents(request.params(":gameId"), request,response),jsonTransformer);
+        
+        get("/brokers/:gameId/places", (request, response) -> brokersHandler.getEstates(request.params(":gameId"), request,response), jsonTransformer );
+
     }
 
     private static void registerRepositories()
@@ -135,6 +156,6 @@ public class RESTopoly
         RepositoryProvider.register(IPlayerRepository.class, new PlayerRepository(new HashMap<String, Map<String, Player>>()));
         RepositoryProvider.register(IServiceRepository.class, new ServiceRepository(new HashMap<String, Services>()));
         RepositoryProvider.register(IComponentRepository.class, new ComponentRepository(new HashMap<>()));
-
+        RepositoryProvider.register(IBrokersRepository.class, new BrokersRepository(new HashMap<>()));
     }
 }
